@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDFX Merger</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .navbar-brand {
+      font-size: 28px;
+      color: blueviolet;
+    }
+
+    .nav-link {
+      font-size: 20px;
+
+    }
+
+    .nav-link:hover {
+      color: blueviolet !important;
+      font-weight: bold;
+    }
+
+    .form-label {
+      font-size: 18px;
+    }
+
+    .btn {
+      color: blueviolet;
+      border: 1px solid blueviolet;
+    }
+
+    .btn:hover {
+      background-color: blueviolet;
+      color: white;
+      border: 1px solid blueviolet;
+    }
+
+    .form {
+      background-color: rgb(210, 233, 240);
+      min-height: 300px;
+
+    }
+
+    .text-muted:hover {
+      color: blueviolet !important;
+    }
+
+    .main {
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .main label {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 20px;
+      color: #666666;
+      margin: 10px 0 15px 0;
+    }
+
+    .main .btn {
+      padding: 10px 28px;
+      font-size: 20px;
+      border-radius: 50px;
+      border-width: 2px;
+
+    }
+
+    .main span {
+      color: blueviolet;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .drop-area {
+      border: 2px dashed blueviolet;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+    }
+
+    .drop-area.active {
+      border: 2px solid blueviolet;
+    }
+  </style>
+
+</head>
+
+<body style="font-family: 'Lato', sans-serif">
+
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg  shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-4" href="">PDFX</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav  mb-2 mb-lg-0 ms-auto">
+          <li class="nav-item ">
+            <a class="nav-link active" aria-current="page" href="">Compress</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="">Split</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="">Edit</a>
+          </li>
+          <li class="nav-item me-5">
+            <a class="nav-link active" aria-current="page" href="">More Tools</a>
+          </li>
+
+
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+
+  <!--Files input and submit btn-->
+  <div class="container my-3 pt-4 mt-5 form">
+    <h1 class="text-center " style="margin-bottom: -30px;"><svg xmlns="http://www.w3.org/2000/svg" width="1.2em"
+        height="1.2em" fill="blueviolet" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+        <path
+          d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+        <path
+          d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z" />
+      </svg> PDFX - Your favorite pdf merger tool</h1>
+    <form method="post" action="/merge" enctype='multipart/form-data' id="my-form">
+      <div class="mt-5 main">
+        <label for="formFileLg" class="form-label">Select the PDF files you want to merge ( Only two files ).</label>
+        <div class="drop-area py-3">
+          <input name="pdfs" class="form-control form-control-lg w-75" id="formFileLg" type="file" multiple
+            accept=".pdf" onchange="displayBtn(event)">
+          <div class="my-2 " style="color: #666666; font-family: Arial, Helvetica, sans-serif;">
+            Drag and Drop to Upload Files
+          </div>
+        </div>
+        <span class="mt-4">Select only two PDF files</span>
+        <input class="btn mt-4 mb-4" type="submit" value="Merge Files" hidden>
+
+      </div>
+    </form>
+
+  </div>
+
+  <!--Combine PDF file for free-->
+  <div class="container px-4 py-5 mt-5 " id="hanging-icons">
+    <h2 class="pb-2 border-bottom">How can I combine PDF files for free? </h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="icon-square  d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="blueviolet" class="bi bi-1-circle"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="fs-4">Choose files to Merge</h3>
+          <p style="color: #666666;">Choose file: drag and drop to upload documents directly from your computer, or
+            upload files from a cloud storage service like Google Drive or Dropbox.</p>
+
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="icon-square  d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="blueviolet" class="bi bi-2-circle"
+            viewBox="0 0 16 16">
+            <path
+              d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM6.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306Z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="fs-4">Adjust order of files</h3>
+          <p style="color: #666666;">Our Merge PDF tool is the solution for users looking to merge multiple files into a
+            single PDF document. Once files have been uploaded to our system, change the order of your PDF documents.
+          </p>
+
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="icon-square  d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" fill="blueviolet" class="bi bi-3-circle"
+            viewBox="0 0 16 16">
+            <path
+              d="M7.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318Z" />
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="fs-4">Send file by Email</h3>
+          <p style="color: #666666;">Once you merge PDFs, you can send them directly to your email or download the file
+            to your computer and view directly in your browser.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Learn more about merging files-->
+  <div class="container px-4  " id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Learn more about merging files</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="card py-3 px-6" style="width: 18rem; border-color: blueviolet;">
+          <div class="card-body">
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor"
+                class="bi bi-file-earmark-bar-graph" viewBox="0 0 16 16">
+                <path
+                  d="M10 13.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-6a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6zm-2.5.5a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1zm-3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-1z" />
+                <path
+                  d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+              </svg>
+            </div>
+            <h5 class="card-title text-center my-3" style="font-weight: bold;">Batch import</h5>
+            <p class="card-text" style="color: #666666;">With our free &amp; secure online tool, there's no limit to how
+              many files you can add, or drop, at a time. Batch import allows you to combine multiple files at once.
+              Convert to PDF or convert from PDF, the merging is entirely up to you!</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="card py-3 px-6" style="width: 18rem; border-color: blueviolet;">
+          <div class="card-body">
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor"
+                class="bi bi-gear-wide-connected" viewBox="0 0 16 16">
+                <path
+                  d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
+              </svg>
+            </div>
+            <h5 class="card-title text-center my-3" style="font-weight: bold;">Merge Online</h5>
+            <p class="card-text" style="color: #666666;">Want to secure and merge PDF files on-the-go? You can also use
+              the full Soda PDF Online application to convert from PDF and convert to PDF in any browser, on any device.
+              It's FREE*!</p>
+          </div>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="card py-3 px-6" style="width: 18rem; border-color: blueviolet;">
+          <div class="card-body">
+            <div class="text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" fill="currentColor"
+                class="bi bi-download" viewBox="0 0 16 16">
+                <path
+                  d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                <path
+                  d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+              </svg>
+            </div>
+            <h5 class="card-title text-center my-3" style="font-weight: bold;">Work Offline</h5>
+            <p class="card-text" style="color: #666666;">Merge PDF files even without Internet access. Download and
+              install the Soda PDF desktop app to edit, compress, split, secure and merge PDF files offline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <div class="col-md-4 d-flex align-items-center">
+        <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+          <svg class="bi" width="30" height="24">
+            <use xlink:href="#bootstrap"></use>
+          </svg>
+        </a>
+        <span class="mb-3 mb-md-0 text-muted">© 2023 Company, Inc</span>
+      </div>
+
+      <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class="ms-3"><a class="text-muted" href=""><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
+              fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path
+                d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z" />
+            </svg></a></li>
+        <li class="ms-3"><a class="text-muted" href=""><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
+              fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+              <path
+                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+            </svg></a></li>
+        <li class="ms-3"><a class="text-muted" href=""><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
+              fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+              <path
+                d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+            </svg></a></li>
+      </ul>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
+  <script>
+
+    const form = document.getElementById('my-form')
+    const dropArea = document.querySelector('.drop-area')
+    dragText = dropArea.querySelector('div')
+    const main = document.querySelector('.main')
+    fileInput = main.querySelector('.form-control')
+    button = main.querySelectorAll('input')[1]
+    span = main.querySelector('span')
+
+
+    let fileArr; // this is a global variable and we'll it used inside multiple function
+
+
+    // if user drag file over drop-area
+    dropArea.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      dropArea.classList.add('active');
+      dragText.textContent = "Release to Upload File"
+    })
+
+    // if user leave dragged file from drop-area
+    dropArea.addEventListener('dragleave', () => {
+      dropArea.classList.remove('active');
+      dragText.textContent = "Drag & Drop to Upload File"
+    })
+
+    // if user drop file on drop-area
+    dropArea.addEventListener('drop', (event) => {
+      event.preventDefault()
+      let file = event.dataTransfer.files
+      let fileType = file[0].type
+      let validExtension = ["application/pdf"];
+
+      if (validExtension.includes(fileType)) {
+        fileArr = [...file]
+
+        showFile()
+
+      } else {
+        alert("This is not a PDF file!")
+      }
+
+    })
+
+    function displayBtn(event) {
+
+      let file = event.srcElement.files;
+      fileArr = [...file]
+
+      showFile()
+
+    }
+
+    function showFile() {
+     
+      if (fileArr.length === 1) {
+        const dataTransfer = new DataTransfer();
+
+        for (const element of fileArr) {
+          dataTransfer.items.add(element);
+        }
+        fileInput.files = dataTransfer.files;
+        button.hidden = false
+
+      } else {
+        const dataTransfer = new DataTransfer();
+
+        for (let i = 0; i < 2; i++) {
+          dataTransfer.items.add(fileArr[i]);
+        }
+        fileInput.files = dataTransfer.files;
+        button.hidden = false
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
+
